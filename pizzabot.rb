@@ -38,7 +38,7 @@ def format_coordinates(coordinates)
   coordinates = coordinates
                 .gsub(/[^\d,\.]/, '')
                 .split(',')
-                .map{ |x| x.to_i }
+                .map(&:to_i)
   # -> [1, 3]
 
   {
@@ -109,5 +109,23 @@ directions << "D"
 
 # so given the coordinates (1,3) the above would result in:
 # -> ENNND
+
+# this method takes both cases above and combines them into one method
+# after running rubocop, it says the above if then format is better
+# so I changed it back https://github.com/rubocop-hq/rubocop
+
+def move(move_number, axes)
+  results = []
+  d = axes == 'y' ? ["N", "S"] : ["E", "W"]
+  if move_number > 0
+    move_number.times { results << d.first }
+  else
+    move_number.abs.times { results << d.last }
+  end
+  results
+end
+
+
+
 
 puts directions
