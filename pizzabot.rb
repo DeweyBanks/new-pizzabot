@@ -70,27 +70,44 @@ directions = []
 
 
 
-# we could get the number of moves North by the difference between this two:
+# we could get the number of moves East by the difference between this two:
 # starting_location[:x_axis] target_location[:x_axis]
-# so if SL.x_axis is 0 and TL.x_axis is 1, we need to move North one time
+# so if SL.x_axis is 0 and TL.x_axis is 1, we need to move East one time
 
 # I set a variable to the difference of the two x_axis points
 x_move_number = target_location[:x_axis] - starting_location[:x_axis]
 # -> 1
-# here, if the number is positive it would be a move North. Negative
-# would be move South.
+# here, if the number is positive it would be a move East. Negative
+# would be move West.
 
-if x_move_number > 0
-  # if it's a positive number we push "N" into the directions array
-  # times the move_number. So if move_number is 2, we push "N" into
-  # directions twice.
-  x_move_number.times { directions << "N" }
-else
-  # here the number is negative. I call .abs method on the number.
-  # this gives the absolute value of the number. Which
-  # we need to do in order to tell the .times method
-  # how many times to push "S"
-  x_move_number.abs.times { directions << "S" }
-end
+# it would be better if this wasn't an if statment, but for now it works
+# if x_move_number > 0
+#   # if it's a positive number we push "E" into the directions array
+#   # times the move_number. So if move_number is 2, we push "E" into
+#   # directions twice.
+#   x_move_number.times { directions << "E" }
+# else
+#   # here the number is negative. I call .abs method on the number.
+#   # this returns the absolute value of the number. Which
+#   # we need to do in order to tell the .times method
+#   # how many times to push "W"
+#   x_move_number.abs.times { directions << "W" }
+# end
+
+# could be written as:
+x_move_number > 0 ? x_move_number.times { directions << "E" } :
+                    x_move_number.abs.times { directions << "W" }
+
+# now switch and do the samething for the y_axis
+y_move_number = target_location[:y_axis] - starting_location[:y_axis]
+# here a positive number would represent a move North
+y_move_number > 0 ? y_move_number.times { directions << "N" } :
+                    y_move_number.abs.times { directions << "S" }
+
+# after we've done the above we need to drop the pizza
+directions << "D"
+
+# so given the coordinates (1,3) the above would result in:
+# -> ENNND
 
 puts directions
