@@ -55,18 +55,21 @@ formatted_coordinates = coordinates_array.map do |coords|
   format_coordinates(coords)
 end
 
+
+
+
 # -> [{:x_axis=>1, :y_axis=>3}, {:x_axis=>4, :y_axis=>4}, {:x_axis=>2, :y_axis=>1}]
 
 
 # The starting point is at the coordinates 0, 0. So, I create
 # an object that represents that.
-starting_location = {:x_axis => 0, :y_axis => 0}
+# starting_location = {:x_axis => 0, :y_axis => 0}
 
 # I will take the first formatted_coordinate to set as the target_location
-target_location = formatted_coordinates.first
+# target_location = formatted_coordinates.first
 
 # I create an empty array to hold the directions
-directions = []
+# directions = []
 
 
 
@@ -75,8 +78,9 @@ directions = []
 # so if SL.x_axis is 0 and TL.x_axis is 1, we need to move East one time
 
 # I set a variable to the difference of the two x_axis points
-x_move_number = target_location[:x_axis] - starting_location[:x_axis]
+# x_move_number = target_location[:x_axis] - starting_location[:x_axis]
 # -> 1
+
 # here, if the number is positive it would be a move East. Negative
 # would be move West.
 
@@ -95,17 +99,17 @@ x_move_number = target_location[:x_axis] - starting_location[:x_axis]
 # end
 
 # could be written as:
-x_move_number > 0 ? x_move_number.times { directions << "E" } :
-                    x_move_number.abs.times { directions << "W" }
+# x_move_number > 0 ? x_move_number.times { directions << "E" } :
+#                     x_move_number.abs.times { directions << "W" }
 
-# now switch and do the samething for the y_axis
-y_move_number = target_location[:y_axis] - starting_location[:y_axis]
-# here a positive number would represent a move North
-y_move_number > 0 ? y_move_number.times { directions << "N" } :
-                    y_move_number.abs.times { directions << "S" }
+# # now switch and do the samething for the y_axis
+# y_move_number = target_location[:y_axis] - starting_location[:y_axis]
+# # here a positive number would represent a move North
+# y_move_number > 0 ? y_move_number.times { directions << "N" } :
+#                     y_move_number.abs.times { directions << "S" }
 
-# after we've done the above we need to drop the pizza
-directions << "D"
+# # after we've done the above we need to drop the pizza
+# directions << "D"
 
 # so given the coordinates (1,3) the above would result in:
 # -> ENNND
@@ -126,6 +130,15 @@ def move(move_number, axes)
 end
 
 
+starting_location = {:x_axis => 0, :y_axis => 0}
+directions = []
+
+formatted_coordinates.each do |coordinate|
+  directions << move(coordinate[:x_axis] - starting_location[:x_axis], 'x')
+  directions << move(coordinate[:y_axis] - starting_location[:y_axis], 'y')
+  directions << "D"
+  starting_location = coordinate
+end
 
 
-puts directions
+puts directions.join
